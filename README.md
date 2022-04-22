@@ -1,1 +1,1 @@
-# kubeslice-hub-ovpn-certs-generator
+# kubeslice-gateway-certs-generator
