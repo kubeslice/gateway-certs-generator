@@ -1,4 +1,4 @@
-module mesh_hub_ovpn_certs
+module kubeslice-gateway-certs-generator
 
 go 1.17
 
