@@ -1,1 +1,1 @@
-# kubeslice-gateway-certs-generator
+# gateway-certs-generator
