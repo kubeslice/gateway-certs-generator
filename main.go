@@ -19,6 +19,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/kubeslice/gateway-certs-generator/util"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 	"io/ioutil"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -29,22 +32,28 @@ import (
 )
 
 func main() {
-	println("Its Start here")
+	logLevel := os.Getenv("LOG_LEVEL")
+	// initialize logger
+	zapLogLevel := util.GetZapLogLevel(logLevel)
+	initLogger(zapLogLevel)
+	logger := zap.S()
+
+	logger.Info("Certificate Generation Started.")
 	workDir := os.Getenv("WORK_DIR")
 	vpnFQDN := os.Getenv("VPN_FQDN") //todo: move export from shell script
 	serverId := os.Getenv("SERVER_SLICEGATEWAY_NAME")
 	clientId := os.Getenv("CLIENT_SLICEGATEWAY_NAME")
 	namespace := os.Getenv("NAMESPACE")
 
-	fmt.Println("workDir", workDir)
-	fmt.Println("vpnFQDN..", vpnFQDN)
-	fmt.Println("serverId..", serverId)
+	logger.Debug("workDir", workDir)
+	logger.Debug("vpnFQDN..", vpnFQDN)
+	logger.Debug("serverId..", serverId)
 	dhPem := fmt.Sprintf("%s/ovpn/dh.pem", workDir)
-	fmt.Println("dhFilePath", dhPem)
+	logger.Debug("dhFilePath", dhPem)
 	taKey := fmt.Sprintf("%s/ovpn/ta.key", workDir)
-	fmt.Println("taKey", taKey)
+	logger.Debug("taKey", taKey)
 	clientOvpn := fmt.Sprintf("%s/ovpn/%s/client-openvpn-combined.conf", workDir, vpnFQDN)
-	fmt.Println("clientOvpn data", clientOvpn)
+	logger.Debug("clientOvpn data", clientOvpn)
 	pkiIssued := fmt.Sprintf("%s/ovpn/pki/issued/%s.crt", workDir, serverId)
 	pkiPrivate := fmt.Sprintf("%s/ovpn/pki/private/%s.key", workDir, serverId)
 	pkiCa := fmt.Sprintf("%s/ovpn/pki/ca.crt", workDir)
@@ -53,46 +62,67 @@ func main() {
 	serverCcd := fmt.Sprintf("%s/ovpn/%s/ccd", workDir, vpnFQDN)
 	serverCcdFile, err := readFile(serverCcd)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("serverCcdFile content..", string(serverCcdFile))
+	logger.Debug("serverCcdFile content..", string(serverCcdFile))
+	logger.Info("serverCcdFile has been generated.")
+
 	pkiIssuedFile, err := readFile(pkiIssued)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("pkiIssuedFile content..", string(pkiIssuedFile))
+	logger.Debug("pkiIssuedFile content..", string(pkiIssuedFile))
+	logger.Info("pkiIssuedFile has been generated.")
 
 	pkiPrivateFile, err := readFile(pkiPrivate)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("pkiPrivateFile content..", string(pkiPrivateFile))
+	logger.Debug("pkiPrivateFile content..", string(pkiPrivateFile))
+	logger.Info("pkiPrivateFile has been generated.")
+
 	pkiCaFile, err := readFile(pkiCa)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("pkiCaFile content..", string(pkiCaFile))
+	logger.Debug("pkiCaFile content..", string(pkiCaFile))
+	logger.Info("pkiCaFile has been generated.")
 
 	serverOvpnConfFile, err := readFile(serverOvpnConf)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("serverOvpnConfFile content..", string(serverOvpnConfFile))
+	logger.Debug("serverOvpnConfFile content..", string(serverOvpnConfFile))
+	logger.Info("serverOvpnConfFile has been generated.")
+
 	dhPemFile, err := readFile(dhPem)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("dhPem ccontent..", string(dhPemFile))
+	logger.Debug("dhPem content..", string(dhPemFile))
+	logger.Info("dhPem has been generated.")
+
 	taKeyFile, err := readFile(taKey)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("taKeyFile ccontent..", string(taKeyFile))
+	logger.Debug("taKeyFile content..", string(taKeyFile))
+	logger.Info("taKeyFile has been generated.")
+
 	clientOvpnFile, err := readFile(clientOvpn)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("clientOvpn ccontent..", string(clientOvpnFile))
+	logger.Debug("clientOvpn content..", string(clientOvpnFile))
+	logger.Info("clientOvpn has been generated.")
 
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -122,13 +152,15 @@ func main() {
 		}}
 	_, err = clientset.CoreV1().Secrets(namespace).Create(context.TODO(), &clientSecret, v1.CreateOptions{})
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
 	_, err = clientset.CoreV1().Secrets(namespace).Create(context.TODO(), &serverSecret, v1.CreateOptions{})
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
-	fmt.Println("Its End here")
+	logger.Info("Certificate Generation Completed.")
 
 }
 func readFile(path string) ([]byte, error) {
@@ -147,4 +179,11 @@ func readFile(path string) ([]byte, error) {
 		return nil, err
 	}
 	return b, nil
+}
+
+func initLogger(logLevel zapcore.Level) {
+	config := zap.NewDevelopmentConfig()
+	config.Level = zap.NewAtomicLevelAt(logLevel)
+	logg, _ := config.Build()
+	zap.ReplaceGlobals(logg)
 }
