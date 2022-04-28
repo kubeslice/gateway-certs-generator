@@ -1,8 +1,8 @@
-@Library('jenkins-library@master') _
+@Library('jenkins-library@opensource') _
 
 
 dockerImagePipeline(
   script: this,
-  service: 'kubeslice/ovpn-cert-generator'
+  service: 'aveshadev/ovpn-cert-generator-oss'
 )
 
