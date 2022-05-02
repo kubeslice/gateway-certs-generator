@@ -3,7 +3,7 @@
 
 dockerImagePipeline(
   script: this,
-  service: 'aveshadev/ovpn-cert-generator-oss'
+  service: 'aveshasystems/gateway-certs-generator'
   
 )
 
