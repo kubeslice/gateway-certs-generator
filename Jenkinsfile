@@ -5,6 +5,5 @@ dockerImagePipeline(
   script: this,
   service: 'aveshasystems/gateway-certs-generator'
   
-  
 )
 
