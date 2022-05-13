@@ -1,7 +1,7 @@
 # gateway-certs-generator
 
-![Docker Image Size](https://img.shields.io/docker/image-size/aveshasystems/gw-sidecar/latest)
-![Docker Image Version](https://img.shields.io/docker/v/aveshasystems/gw-sidecar?sort=date)
+![Docker Image Size](https://img.shields.io/docker/image-size/aveshasystems/gateway-certs-generator/latest)
+![Docker Image Version](https://img.shields.io/docker/v/aveshasystems/gateway-certs-generator?sort=date)
 
 This is an opinionated single-file OpenVPN TLS certificate configuration generator for slice gateways. it is an enhancement to easy-rsa (typically bundled with OpenVPN).
 
