@@ -2,13 +2,13 @@
 
 This is an opinionated single-file OpenVPN TLS certificate configuration generator for slice gateways. it is an enhancement to easy-rsa (typically bundled with OpenVPN).
 
-easy-rsa is a CLI utility to build and manage a PKI CA. In laymen's terms, this means to create a root certificate authority, and request and sign certificates, including intermediate CAs and certificate revocation lists (CRL).
+easy-rsa is a CLI utility to build and manage a PKI CA. In layman's terms, this means to create a root certificate authority, and request and sign certificates including intermediate CAs and certificate revocation lists (CRL).
 
 ## Getting Started
-It is strongly recommended to use a released version. Follow the instructions in this [document](https://docs.avesha.io/opensource/installing-the-kubeslice-controller).
+It is strongly recommended to use a released version. Follow the instructions in this [document](https://docs.avesha.io/documentation/open-source/0.2.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller).
 
 ## Building and Deploying `gateway-certs-generator` and use with `kubeslice-controller` in a Local Kind Cluster
-For more information, see [getting started with kind clusters](https://docs.avesha.io/opensource/getting-started-with-kind-clusters).
+For more information, see [getting started with kind clusters](https://docs.avesha.io/documentation/open-source/0.2.0/getting-started-with-kind-clusters).
 
 ### Prerequisites
 
@@ -51,7 +51,7 @@ make docker-build
 1. Loading gateway-certs-generator Image into your kind cluster ([kind](https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster)).
    If needed, replace `aveshasystems/gateway-certs-generator` with your locally built image name in the previous step.
    
-* Note: If using a named cluster you will need to specify the name of the cluster you wish to load the images into. See [loading an image into your kind cluster](https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster).
+* Note: If you use a named cluster, you must specify the name of the cluster you wish to load the images into. See [loading an image into your kind cluster](https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster).
 ```console
 kind load docker-image aveshasystems/gateway-certs-generator --name cluster-name
 ```
@@ -117,7 +117,7 @@ kubeslice-controller-manager-5b548fb865-kzb7c   2/2     Running   0          102
 ```
 
 ### Uninstalling the kubeslice-controller
-For more information, see [uninstalling the KubeSlice](https://docs.avesha.io/opensource/uninstalling-kubeslice).
+For more information, see [uninstalling KubeSlice](https://docs.avesha.io/documentation/open-source/0.2.0/getting-started-with-cloud-clusters/uninstalling-kubeslice).
 
 ```console
 make chart-undeploy
