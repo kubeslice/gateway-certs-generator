@@ -3,7 +3,7 @@
 
 dockerImagePipeline(
   script: this,
-  service: 'aveshasystems/gateway-certs-generator'
+  service: 'gateway-certs-generator'
   
 )
 
