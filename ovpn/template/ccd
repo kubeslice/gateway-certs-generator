@@ -1,1 +1,2 @@
 iroute <nsm-client-network> <nsm-mask>
+ifconfig-push <vpn-ip-2-client> <vpn-mask>
