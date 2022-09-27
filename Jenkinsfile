@@ -1,4 +1,4 @@
-@Library('jenkins-library@opensource-release') _
+@Library('jenkins-library@main') _
 
 
 dockerImagePipeline(
