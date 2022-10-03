@@ -15,4 +15,4 @@ jobs:
           tags: aveshadev/${{ github.event.repository.name }}:latest
           push: false
       - name: List images
-        run: docker image ls 
+        run: docker image ls  
