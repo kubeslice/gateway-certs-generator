@@ -13,7 +13,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
     
     - name: build the worker operator
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v3
       with:
         build-args: |
           PLATFORM=amd64
@@ -33,7 +33,7 @@ jobs:
           bash run.sh kind
 
     - name: Checkout gh-pages repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: kubeslice/e2e-allure-reports
         path: gh-pages
@@ -58,7 +58,7 @@ jobs:
         test_env: Kind
           
     - name: Deploy report to Github Pages
-      uses: peaceiris/actions-gh-pages@v2
+      uses: peaceiris/actions-gh-pages@v3
       env:
         PUBLISH_BRANCH: gh-pages
         PERSONAL_TOKEN: ${{ secrets.TOKEN }}
