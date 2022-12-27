@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout the repo
-        uses: actions/checkout@v2
-      - uses: Jerome1337/gofmt-action@v1.0.4
+        uses: actions/checkout@v3
+      - uses: Jerome1337/gofmt-action@v1.0.5
         name: check go fmt
         with:
           gofmt-path: './'
