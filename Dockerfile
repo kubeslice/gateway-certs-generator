@@ -11,8 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o generator main.go
 
 FROM alpine:3.16.2
 WORKDIR /app
-RUN apk add --update --no-cache openvpn jq
-
+RUN apk add --update --no-cache openvpn jq bash
 COPY logs/ logs/
 COPY ovpn/ ovpn/
 COPY generate-certs.sh generate-certs.sh
