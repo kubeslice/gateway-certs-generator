@@ -9,10 +9,11 @@ COPY main.go main.go
 COPY util/ util/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o generator main.go
 
-FROM debian:11.6
+FROM debian:bookworm
 WORKDIR /app
 RUN apt-get --allow-releaseinfo-change update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     openvpn jq
+
 COPY logs/ logs/
 COPY ovpn/ ovpn/
 COPY generate-certs.sh generate-certs.sh
