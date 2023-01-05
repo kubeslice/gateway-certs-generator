@@ -8,8 +8,8 @@ The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certific
 It is strongly recommended to use a released version. 
 
 Please refer to our documentation on:
-- [Installing KubeSlice on cloud clusters](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller).
-- [Installing KubeSlice on kind clusters](https://kubeslice.io/documentation/open-source/0.5.0/tutorials/kind-install-kubeslice-controller).
+- [Installing KubeSlice on cloud clusters](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller)
+- [Installing KubeSlice on kind clusters](https://kubeslice.io/documentation/open-source/0.5.0/tutorials/kind-install-kubeslice-controller)
 
 ## Building and Deploying `gateway-certs-generator` on a Kind Cluster
 
