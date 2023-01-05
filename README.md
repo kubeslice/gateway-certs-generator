@@ -1,21 +1,26 @@
-# gateway-certs-generator
+# Certificate Generator for Slice Gateway
 
-This is an opinionated single-file OpenVPN TLS certificate configuration generator for slice gateways. it is an enhancement to easy-rsa (typically bundled with OpenVPN).
+The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certificate configuration generator for slice gateways. It's an enhancement to `easy-rsa` (typically bundled with OpenVPN).
 
-easy-rsa is a CLI utility to build and manage a PKI CA. In layman's terms, this means to create a root certificate authority, and request and sign certificates including intermediate CAs and certificate revocation lists (CRL).
+`easy-rsa` is a CLI tool/utility to build and manage a PKI CA. use the CLI tool `easy-rsa`. Using the tool, create a root certificate authority, and request and sign certificates including intermediate CAs and certificate revocation lists (CRL).
 
 ## Getting Started
-It is strongly recommended to use a released version. Follow the instructions in this [document](https://docs.avesha.io/documentation/open-source/0.2.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller).
+It is strongly recommended to use a released version. 
 
-## Building and Deploying `gateway-certs-generator` and use with `kubeslice-controller` in a Local Kind Cluster
-For more information, see [getting started with kind clusters](https://docs.avesha.io/documentation/open-source/0.2.0/getting-started-with-kind-clusters).
+Please refer to our documentation on:
+- [Installing KubeSlice on cloud clusters](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller).
+- [Installing KubeSlice on kind clusters](https://kubeslice.io/documentation/open-source/0.5.0/tutorials/kind-install-kubeslice-controller).
+
+## Building and Deploying `gateway-certs-generator` on a Kind Cluster
+
+To create certificates, the controller needs the `gateway-cert-generator` image. Therefore, we create the image and use the image version in the controller values file.
 
 ### Prerequisites
-
-* Docker installed and running in your local machine
-* A running [`kind`](https://kind.sigs.k8s.io/)  cluster
-* [`kubectl`](https://kubernetes.io/docs/tasks/tools/) installed and configured
-* Follow the getting started from above, to install [`kubeslice-controller`](https://github.com/kubeslice/kubeslice-controller) and [`worker-operator`](https://github.com/kubeslice/worker-operator)
+Before you begin, make sure the following prerequisites are met:
+* Docker is installed and running on your local machine.
+* A running [`kind`](https://kind.sigs.k8s.io/) cluster.
+* [`kubectl`](https://kubernetes.io/docs/tasks/tools/) is installed and configured.
+* You have prepared the environment to install [`kubeslice-controller`](https://github.com/kubeslice/kubeslice-controller) on the controller cluster and [`worker-operator`](https://github.com/kubeslice/worker-operator) on the worker cluster. For more information, see [Prerequisites](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/prerequisites/).
 
 ### Setting up Your Helm Repo
 If you have not added avesha helm repo yet, add it.
@@ -68,7 +73,7 @@ docker exec -it kind-control-plane crictl images
 ```
 
 ### Deploying in a Cluster
-1. Create chart values file `yourvaluesfile.yaml`. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) on how to adjust this and update the `kubeslice-controller` image to the local build image.
+1. Create a chart values called `yourvaluesfile.yaml` file. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) on how to adjust this and update the `kubeslice-controller` image to the local build image.
 
 From the sample:
 
@@ -102,22 +107,8 @@ kubeslice:
 make chart-deploy VALUESFILE=yourvaluesfile.yaml
 ```
 
-### Verify if the Operator is Running
-
-
-```console
-kubectl get pods -n kubeslice-controller
-```
-
-Sample output to expect
-
-```
-NAME                                            READY   STATUS    RESTARTS   AGE
-kubeslice-controller-manager-5b548fb865-kzb7c   2/2     Running   0          102s
-```
-
-### Uninstalling the kubeslice-controller
-For more information, see [uninstalling KubeSlice](https://docs.avesha.io/documentation/open-source/0.2.0/getting-started-with-cloud-clusters/uninstalling-kubeslice).
+### Uninstalling the KubeSlice Controller
+For more information, see [uninstalling KubeSlice](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/uninstalling-kubeslice/offboarding-namespaces).
 
 ```console
 make chart-undeploy
