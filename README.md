@@ -1,8 +1,8 @@
 # Certificate Generator for Slice Gateway
 
-The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certificate configuration generator for slice gateways. it is an enhancement to `easy-rsa` (typically bundled with OpenVPN).
+The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certificate configuration generator for slice gateways. It's an enhancement to `easy-rsa` (typically bundled with OpenVPN).
 
-To create and maintain a PKI CA, use the CLI tool `easy-rsa`. Using the tool create a root certificate authority, and request and sign certificates including intermediate CAs and certificate revocation lists (CRL).
+`easy-rsa` is a CLI tool/utility to build and manage a PKI CA. use the CLI tool `easy-rsa`. Using the tool, create a root certificate authority, and request and sign certificates including intermediate CAs and certificate revocation lists (CRL).
 
 ## Getting Started
 It is strongly recommended to use a released version. 
@@ -19,8 +19,8 @@ To create certificates, the controller needs the `gateway-cert-generator` image.
 Before you begin, make sure the following prerequisites are met:
 * Docker is installed and running on your local machine.
 * A running [`kind`](https://kind.sigs.k8s.io/) cluster.
-* [`kubectl`](https://kubernetes.io/docs/tasks/tools/) installed and configured
-* You have prepared the environment for the installation of [`kubeslice-controller`](https://github.com/kubeslice/kubeslice-controller) on the controller cluster and [`worker-operator`](https://github.com/kubeslice/worker-operator) on the worker cluster. For more information, see [Prerequisites](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/prerequisites/).
+* [`kubectl`](https://kubernetes.io/docs/tasks/tools/) is installed and configured.
+* You have prepared the environment to install [`kubeslice-controller`](https://github.com/kubeslice/kubeslice-controller) on the controller cluster and [`worker-operator`](https://github.com/kubeslice/worker-operator) on the worker cluster. For more information, see [Prerequisites](https://kubeslice.io/documentation/open-source/0.5.0/getting-started-with-cloud-clusters/prerequisites/).
 
 ### Setting up Your Helm Repo
 If you have not added avesha helm repo yet, add it.
@@ -73,7 +73,7 @@ docker exec -it kind-control-plane crictl images
 ```
 
 ### Deploying in a Cluster
-1. Create the chart values `yourvaluesfile.yaml` file. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) on how to adjust this and update the `kubeslice-controller` image to the local build image.
+1. Create a chart values called `yourvaluesfile.yaml` file. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) on how to adjust this and update the `kubeslice-controller` image to the local build image.
 
 From the sample:
 
