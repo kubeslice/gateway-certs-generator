@@ -1,4 +1,4 @@
-FROM golang:1.17 as builder
+FROM golang:1.17-alpine3.16 as builder
 LABEL maintainer="avesha system"
 WORKDIR /app
 # Copy the go source
@@ -9,10 +9,9 @@ COPY main.go main.go
 COPY util/ util/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o generator main.go
 
-FROM debian:11.6
+FROM alpine:3.16
 WORKDIR /app
-RUN apt-get --allow-releaseinfo-change update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    openvpn jq
+RUN apk add openvpn jq openssl
 COPY logs/ logs/
 COPY ovpn/ ovpn/
 COPY generate-certs.sh generate-certs.sh
