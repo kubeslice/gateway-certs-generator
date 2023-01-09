@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #
 # 	# Copyright (c) 2022 Avesha, Inc. All rights reserved. # # SPDX-License-Identifier: Apache-2.0
@@ -29,4 +29,13 @@ function init() {
   PASS_SALT=SALT
   PASSIN=XXXXXX
   PASSOUT=XXXXXX
+}
+
+function pushd() {
+  PREVIOUS_DIR=$(pwd)
+  cd $1
+}
+
+function popd() {
+  cd $PREVIOUS_DIR
 }
