@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #
 # 	# Copyright (c) 2022 Avesha, Inc. All rights reserved. # # SPDX-License-Identifier: Apache-2.0
@@ -29,8 +29,8 @@ function prepareExecution() {
 # Expects a callback
 function iterateCertPairRequest() {
   callback="$1"
-  for encrow in $(echo "${CERT_GEN_REQUESTS}" | base64 --decode | jq -r '.pairs[] | @base64'); do
-    row="$(echo ${encrow} | base64 --decode)"
+  for encrow in $(echo "${CERT_GEN_REQUESTS}" | base64 -d | jq -r '.pairs[] | @base64'); do
+    row="$(echo ${encrow} | base64 -d)"
     VPN_FQDN=$(echo ${row} | jq -r '.vpnFqdn')
     NSM_SERVER_NETWORK=$(echo ${row} | jq -r '.nsmServerNetwork')
     NSM_CLIENT_NETWORK=$(echo ${row} | jq -r '.nsmClientNetwork')

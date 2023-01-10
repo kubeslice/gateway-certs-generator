@@ -113,6 +113,7 @@ For more information, see [uninstalling KubeSlice](https://kubeslice.io/document
 ```console
 make chart-undeploy
  ```
+ 
 
 ## License
 
