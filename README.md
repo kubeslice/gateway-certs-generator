@@ -122,6 +122,7 @@ For more information, see [uninstalling KubeSlice](https://docs.avesha.io/docume
 ```console
 make chart-undeploy
  ```
+ 
 
 ## License
 
