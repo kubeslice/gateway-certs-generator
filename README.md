@@ -55,7 +55,7 @@ To download the latest docker image for gateway-certs-generator, click [here](ht
 ### Run Local Image on Kind Clusters
 
 1. Load the gateway-certs-generator image into your kind cluster ([kind](https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster)).
-   If needed, modify `aveshasystems/gateway-certs-generator` with your locally built image name in the previous step.
+   If needed, replace `aveshasystems/gateway-certs-generator` with your locally built image name in the previous step.
    
 * Note: If you use a named cluster, you must specify the name of the cluster you wish to load the images into. See [loading an image into your kind cluster](https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster).
   
