@@ -75,7 +75,7 @@ To download the latest docker image for gateway-certs-generator, click [here](ht
   docker exec -it kind-control-plane crictl images
   ```
 
-### Deploy Certificate Generator on a Cluster
+### Deploy the Certificate Generator on a Cluster
 1. Create the chart values file called `yourvaluesfile.yaml`. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) to update the `kubeslice-controller` image to the local build image.
 
 From the sample:
