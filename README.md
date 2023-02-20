@@ -46,8 +46,8 @@ To download the latest docker image for gateway-certs-generator, click [here](ht
    cd gateway-certs-generator
    ```
 
-2. Adjust image name variable `IMG` in the [`Makefile`](Makefile) to change the docker tag to be built.
-   Default image is set as `IMG ?= aveshasystems/gateway-certs-generator:latest`. Modify this if required.
+2. Modiy the image name variable `IMG` in the [`Makefile`](Makefile) to change the docker tag to be built.
+   The default image is set as `IMG ?= aveshasystems/gateway-certs-generator:latest`. Modify this if required.
 
    ```console
    make docker-build
@@ -76,7 +76,7 @@ To download the latest docker image for gateway-certs-generator, click [here](ht
   ```
 
 ### Deploy on a Cluster
-1. Create a chart values file `yourvaluesfile.yaml` file. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) to update the `kubeslice-controller` image to the local build image.
+1. Create the chart values file called `yourvaluesfile.yaml`. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) to update the `kubeslice-controller` image to the local build image.
 
 From the sample:
 
