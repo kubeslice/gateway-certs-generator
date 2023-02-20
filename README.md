@@ -11,7 +11,7 @@ Please refer to our documentation on:
 - [Install KubeSlice on cloud clusters](https://kubeslice.io/documentation/open-source/0.6.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller)
 - [Install KubeSlice on kind clusters](https://kubeslice.io/documentation/open-source/0.6.0/tutorials/kind-install-kubeslice-controller)
 
-## Build and Deploy `gateway-certs-generator` on a Kind Cluster
+## Build and Deploy Certificate Generator on a Kind Cluster
 
 To generate certificates, the controller requires the 'gateway-cert-generator' image. So, we create the image and use the image version in the controller values file.
 
@@ -75,7 +75,7 @@ To download the latest docker image for gateway-certs-generator, click [here](ht
   docker exec -it kind-control-plane crictl images
   ```
 
-### Deploy on a Cluster
+### Deploy Certificate Generator on a Cluster
 1. Create the chart values file called `yourvaluesfile.yaml`. Refer to [values.yaml](https://github.com/kubeslice/charts/blob/master/charts/kubeslice-controller/values.yaml) to update the `kubeslice-controller` image to the local build image.
 
 From the sample:
