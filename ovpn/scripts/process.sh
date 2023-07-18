@@ -152,6 +152,7 @@ function substituteTemplateParameters() {
     sed -i "s;<vpn-ip-2-client>;${VPN_IP_2_CLIENT};g" ${VPN_FQDN}/$file
     sed -i "s;<vpn-network>;${VPN_NETWORK};g" ${VPN_FQDN}/$file
     sed -i "s;<vpn-mask>;${VPN_MASK};g" ${VPN_FQDN}/$file
+    sed -i "s;<vpn-cipher>;${VPN_CIPHER};g" ${VPN_FQDN}/$file
   done
   popd
   log "All parameters were substituted."
