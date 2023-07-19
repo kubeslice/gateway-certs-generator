@@ -150,6 +150,10 @@ func main() {
 			"pkiCACertFile":     pkiCaFile,
 			"ccdFile":           serverCcdFile,
 		}}
+	// delete any existing secrets present
+	_ = clientset.CoreV1().Secrets(namespace).Delete(context.TODO(), clientSecret.Name, v1.DeleteOptions{})
+	_ = clientset.CoreV1().Secrets(namespace).Delete(context.TODO(), serverSecret.Name, v1.DeleteOptions{})
+
 	_, err = clientset.CoreV1().Secrets(namespace).Create(context.TODO(), &clientSecret, v1.CreateOptions{})
 	if err != nil {
 		logger.Error(err)
