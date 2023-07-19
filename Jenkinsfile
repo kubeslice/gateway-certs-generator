@@ -2,6 +2,5 @@
 dockerImagePipeline(
   script: this,
   service: 'gateway-certs-generator'
-  
 )
 
