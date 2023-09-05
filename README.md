@@ -8,8 +8,7 @@ The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certific
 It is strongly recommended that you use a released version. 
 
 Please refer to our documentation on:
-- [Install KubeSlice on cloud clusters](https://kubeslice.io/documentation/open-source/0.6.0/getting-started-with-cloud-clusters/installing-kubeslice/installing-the-kubeslice-controller)
-- [Install KubeSlice on kind clusters](https://kubeslice.io/documentation/open-source/0.6.0/tutorials/kind-install-kubeslice-controller)
+- [Get Started](https://kubeslice.io/documentation/open-source/1.1.0/category/get-started)
 
 ## Build and Deploy Certificate Generator on a Kind Cluster
 
@@ -111,7 +110,7 @@ Change it to:
    ```
 
 ### Uninstall the KubeSlice Controller
-For more information, see [uninstalling KubeSlice](https://kubeslice.io/documentation/open-source/0.6.0/getting-started-with-cloud-clusters/uninstalling-kubeslice/offboarding-namespaces).
+For more information, see [uninstalling KubeSlice](https://kubeslice.io/documentation/open-source/1.1.0/uninstall-kubeslice/).
 
 ```console
 make chart-undeploy
