@@ -8,7 +8,8 @@ The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certific
 It is strongly recommended that you use a released version. 
 
 Please refer to our documentation on:
-- [Get Started](https://kubeslice.io/documentation/open-source/1.1.0/category/get-started)
+- [Get Started on KubeSlice](https://kubeslice.io/documentation/open-source/1.1.0/category/get-started)
+- [Install KubeSlice](https://kubeslice.io/documentation/open-source/1.1.0/category/install-kubeslice)
 
 ## Build and Deploy Certificate Generator on a Kind Cluster
 
