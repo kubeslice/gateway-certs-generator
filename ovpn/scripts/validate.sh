@@ -105,6 +105,16 @@ function validateIndividualCertRequest() {
     FAIL=YES
   fi
 
+  if [[ -z ${GATEWAY_PROTOCOL} ]]; then
+    GATEWAY_PROTOCOL="udp"
+  else
+    GATEWAY_PROTOCOL=$(echo "${GATEWAY_PROTOCOL}" | tr '[:upper:]' '[:lower:]')
+    if [[ ${GATEWAY_PROTOCOL} != "udp" && ${GATEWAY_PROTOCOL} != "tcp" ]]; then
+      GATEWAY_PROTOCOL="udp"
+    fi
+  fi
+
+
   if [[ "${FAIL}" == "YES" ]]; then
     log "One or more required parameters were missing."
     finish
