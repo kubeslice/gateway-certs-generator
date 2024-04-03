@@ -8,8 +8,8 @@ The `gateway-certs-generator` is an opinionated single-file OpenVPN TLS certific
 It is strongly recommended that you use a released version. 
 
 Please refer to our documentation on:
-- [Get Started on KubeSlice](https://kubeslice.io/documentation/open-source/1.2.0/category/get-started)
-- [Install KubeSlice](https://kubeslice.io/documentation/open-source/1.2.0/category/install-kubeslice)
+- [Get Started on KubeSlice](https://kubeslice.io/documentation/open-source/1.3.0/category/get-started)
+- [Install KubeSlice](https://kubeslice.io/documentation/open-source/1.3.0/category/install-kubeslice)
 
 ## Build and Deploy Certificate Generator on a Kind Cluster
 
@@ -20,7 +20,7 @@ Before you begin, make sure the following prerequisites are met:
 * Docker is installed and running on your local machine.
 * A running [`kind`](https://kind.sigs.k8s.io/) cluster.
 * [`kubectl`](https://kubernetes.io/docs/tasks/tools/) is installed and configured.
-* You have prepared the environment to install [`kubeslice-controller`](https://github.com/kubeslice/kubeslice-controller) on the controller cluster and [`worker-operator`](https://github.com/kubeslice/worker-operator) on the worker cluster. For more information, see [Prerequisites](https://kubeslice.io/documentation/open-source/1.2.0/category/prerequisites).
+* You have prepared the environment to install [`kubeslice-controller`](https://github.com/kubeslice/kubeslice-controller) on the controller cluster and [`worker-operator`](https://github.com/kubeslice/worker-operator) on the worker cluster. For more information, see [Prerequisites](https://kubeslice.io/documentation/open-source/1.3.0/category/prerequisites).
 
 ### Set up Your Helm Repo
 If you have not added avesha helm repo yet, add it.
@@ -111,7 +111,7 @@ Change it to:
    ```
 
 ### Uninstall the KubeSlice Controller
-For more information, see [uninstalling KubeSlice](https://kubeslice.io/documentation/open-source/1.2.0/uninstall-kubeslice/).
+For more information, see [uninstalling KubeSlice](https://kubeslice.io/documentation/open-source/1.3.0/uninstall-kubeslice/).
 
 ```console
 make chart-undeploy
