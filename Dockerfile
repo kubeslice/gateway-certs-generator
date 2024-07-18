@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine3.16 as builder
+FROM golang:1.22.5-alpine3.20 as builder
 LABEL maintainer="avesha system"
 WORKDIR /app
 # Copy the go source
@@ -9,7 +9,7 @@ COPY main.go main.go
 COPY util/ util/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o generator main.go
 
-FROM alpine:3.17
+FROM alpine:3.20.1
 WORKDIR /app
 RUN apk add openvpn jq openssl
 COPY logs/ logs/
