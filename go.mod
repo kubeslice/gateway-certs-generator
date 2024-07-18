@@ -1,6 +1,6 @@
 module github.com/kubeslice/gateway-certs-generator
 
-go 1.17
+go 1.22.5
 
 require (
 	go.uber.org/zap v1.21.0
