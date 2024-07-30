@@ -11,7 +11,21 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o generator main.go
 
 FROM alpine:3.20.1
 WORKDIR /app
-RUN apk add openvpn jq openssl
+# Install dependencies including a specific version of OpenSSL
+RUN apk add --no-cache \
+    openvpn \
+    jq \
+    wget \
+    ca-certificates && \
+    wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz && \
+    tar -zxvf openssl-1.1.1w.tar.gz && \
+    cd openssl-1.1.1w && \
+    ./config && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf openssl-1.1.1w.tar.gz openssl-1.1.1w \
+    
 COPY logs/ logs/
 COPY ovpn/ ovpn/
 COPY generate-certs.sh generate-certs.sh
