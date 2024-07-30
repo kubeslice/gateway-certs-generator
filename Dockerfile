@@ -9,7 +9,7 @@ COPY main.go main.go
 COPY util/ util/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o generator main.go
 
-FROM alpine:3
+FROM alpine:3.16
 WORKDIR /app
 RUN apk add openvpn jq openssl
 COPY logs/ logs/
