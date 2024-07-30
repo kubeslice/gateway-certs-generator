@@ -16,16 +16,15 @@ RUN apk add --no-cache \
     openvpn \
     jq \
     wget \
-    ca-certificates && \
+    ca-certificates \
+    perl && \
     wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz && \
-    tar -zxvf openssl-1.1.1w.tar.gz && \
+    tar -zxvf openssl-1.1.1w.tar.gz &&\
     cd openssl-1.1.1w && \
-    ./config && \
-    make && \
-    make install && \
+    ./config &&\
     cd .. && \
-    rm -rf openssl-1.1.1w.tar.gz openssl-1.1.1w \
-    
+    rm -rf openssl-1.1.1w.tar.gz openssl-1.1.1w
+
 COPY logs/ logs/
 COPY ovpn/ ovpn/
 COPY generate-certs.sh generate-certs.sh
