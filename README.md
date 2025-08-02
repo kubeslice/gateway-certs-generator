@@ -39,6 +39,8 @@ helm repo update
 
 To download the latest docker image for gateway-certs-generator, click [here](https://hub.docker.com/r/aveshasystems/gateway-certs-generator).
 
+The gateway-certs-generator supports multi-architecture builds for both `linux/amd64` and `linux/arm64` platforms.
+
 1. Clone the latest version of gateway-certs-generator from  the `master` branch.
 
    ```console
@@ -46,12 +48,24 @@ To download the latest docker image for gateway-certs-generator, click [here](ht
    cd gateway-certs-generator
    ```
 
-2. Modify the image name variable `IMG` in the [`Makefile`](Makefile) to change the docker tag to be built.
-   The default image is set as `IMG ?= aveshasystems/gateway-certs-generator:latest`. Modify as needed.
+2. Build multi-architecture images using the Makefile:
 
    ```console
+   # Build for both amd64 and arm64
    make docker-build
+   
+   # Push multi-architecture images to registry
+   make docker-push
    ```
+
+3. Test multi-architecture builds locally:
+
+   ```console
+   ./test-multiarch.sh
+   ```
+
+4. Modify the image name variable `IMG` in the [`Makefile`](Makefile) to change the docker tag to be built.
+   The default image is set as `IMG ?= aveshasystems/gateway-certs-generator:latest`. Modify as needed.
 ### Run Local Image on Kind Cluster
 
 1. Load the gateway-certs-generator image into your kind cluster ([kind](https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster)).
