@@ -36,15 +36,95 @@ func main() {
 	// initialize logger
 	zapLogLevel := util.GetZapLogLevel(logLevel)
 	initLogger(zapLogLevel)
-	logger := zap.S()
-
-	logger.Info("Certificate Generation Started.")
 	workDir := os.Getenv("WORK_DIR")
 	vpnFQDN := os.Getenv("VPN_FQDN") //todo: move export from shell script
 	serverId := os.Getenv("SERVER_SLICEGATEWAY_NAME")
 	clientId := os.Getenv("CLIENT_SLICEGATEWAY_NAME")
 	namespace := os.Getenv("NAMESPACE")
+	gatewayType := os.Getenv("GATEWAY_TYPE")
+	if gatewayType == "" {
+		gatewayType = "OpenVPN"
+	}
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		panic(err.Error())
+	}
+	// creates the clientset
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		panic(err.Error())
+	}
+	switch gatewayType {
+	case "Wireguard":
+		generateWireGuardSecrets(clientset, namespace, vpnFQDN, serverId, clientId, workDir)
+	default:
+		generateOpenVPNSecrets(clientset, namespace, vpnFQDN, serverId, clientId, workDir)
+	}
+}
+func generateWireGuardSecrets(clientset *kubernetes.Clientset, namespace string, vpnFQDN, serverId, clientId, workDir string) {
+	logger := zap.S()
+	logger.Debug("workDir", workDir)
+	logger.Debug("vpnFQDN..", vpnFQDN)
+	logger.Debug("serverId..", serverId)
+	wgServerPrivateKey := fmt.Sprintf("%s/wireguard/%s/server_private.key", workDir, vpnFQDN)
+	wgServerPublicKey := fmt.Sprintf("%s/wireguard/%s/server_public.key", workDir, vpnFQDN)
+	wgClientPrivateKey := fmt.Sprintf("%s/wireguard/%s/client_private.key", workDir, vpnFQDN)
+	wgClientPublicKey := fmt.Sprintf("%s/wireguard/%s/client_public.key", workDir, vpnFQDN)
+	wgServerPrivateKeyFile, err := readFile(wgServerPrivateKey)
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	logger.Info("wireguardServerPrivateKey has been generated.")
+	wgServerPublicKeyFile, err := readFile(wgServerPublicKey)
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	logger.Info("wireguardServerPublicKey has been generated.")
+	wgClientPrivateKeyFile, err := readFile(wgClientPrivateKey)
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	logger.Info("wireguardClientPrivateKey has been generated.")
+	wgClientPublicKeyFile, err := readFile(wgClientPublicKey)
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	logger.Info("wireguardClientPublicKey has been generated.")
+	clientSecret := corev1.Secret{
+		ObjectMeta: v1.ObjectMeta{Name: clientId},
+		Data: map[string][]byte{
+			"serverPublicKeyWgFile":  wgServerPublicKeyFile,
+			"clientPrivateKeyWgFile": wgClientPrivateKeyFile,
+		},
+	}
+	serverSecret := corev1.Secret{
+		ObjectMeta: v1.ObjectMeta{Name: serverId},
+		Data: map[string][]byte{
+			"clientPublicKeyWgFile":  wgClientPublicKeyFile,
+			"serverPrivateKeyWgFile": wgServerPrivateKeyFile,
+		}}
+	// delete any existing secrets present
+	_ = clientset.CoreV1().Secrets(namespace).Delete(context.TODO(), clientSecret.Name, v1.DeleteOptions{})
+	_ = clientset.CoreV1().Secrets(namespace).Delete(context.TODO(), serverSecret.Name, v1.DeleteOptions{})
 
+	_, err = clientset.CoreV1().Secrets(namespace).Create(context.TODO(), &clientSecret, v1.CreateOptions{})
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	_, err = clientset.CoreV1().Secrets(namespace).Create(context.TODO(), &serverSecret, v1.CreateOptions{})
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	logger.Info("Wireguard key Generation Completed.")
+}
+func generateOpenVPNSecrets(clientset *kubernetes.Clientset, namespace string, vpnFQDN, serverId, clientId, workDir string) {
+	logger := zap.S()
 	logger.Debug("workDir", workDir)
 	logger.Debug("vpnFQDN..", vpnFQDN)
 	logger.Debug("serverId..", serverId)
@@ -58,7 +138,6 @@ func main() {
 	pkiPrivate := fmt.Sprintf("%s/ovpn/pki/private/%s.key", workDir, serverId)
 	pkiCa := fmt.Sprintf("%s/ovpn/pki/ca.crt", workDir)
 	serverOvpnConf := fmt.Sprintf("%s/ovpn/%s/server-openvpn.conf", workDir, vpnFQDN)
-
 	serverCcd := fmt.Sprintf("%s/ovpn/%s/ccd", workDir, vpnFQDN)
 	serverCcdFile, err := readFile(serverCcd)
 	if err != nil {
@@ -123,16 +202,6 @@ func main() {
 	}
 	logger.Debug("clientOvpn content..", string(clientOvpnFile))
 	logger.Info("clientOvpn has been generated.")
-
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		panic(err.Error())
-	}
-	// creates the clientset
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		panic(err.Error())
-	}
 	clientSecret := corev1.Secret{
 		ObjectMeta: v1.ObjectMeta{Name: clientId},
 		Data: map[string][]byte{
@@ -165,7 +234,6 @@ func main() {
 		return
 	}
 	logger.Info("Certificate Generation Completed.")
-
 }
 func readFile(path string) ([]byte, error) {
 	file, err := os.Open(path)
