@@ -113,6 +113,7 @@ Change it to:
 ### Uninstall the KubeSlice Controller
 For more information, see [uninstalling KubeSlice](https://kubeslice.io/documentation/open-source/1.3.0/uninstall-kubeslice/).
 
+
 ```console
 make chart-undeploy
  ```
