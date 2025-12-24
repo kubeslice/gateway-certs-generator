@@ -19,16 +19,17 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+
 	"github.com/kubeslice/gateway-certs-generator/util"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"io/ioutil"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"log"
-	"os"
 )
 
 func main() {
@@ -139,6 +140,7 @@ func generateOpenVPNSecrets(clientset *kubernetes.Clientset, namespace string, v
 	pkiCa := fmt.Sprintf("%s/ovpn/pki/ca.crt", workDir)
 	serverOvpnConf := fmt.Sprintf("%s/ovpn/%s/server-openvpn.conf", workDir, vpnFQDN)
 	serverCcd := fmt.Sprintf("%s/ovpn/%s/ccd", workDir, vpnFQDN)
+	serverOvpnEnv := fmt.Sprintf("%s/ovpn/%s/ovpn_env.sh", workDir, vpnFQDN)
 	serverCcdFile, err := readFile(serverCcd)
 	if err != nil {
 		logger.Error(err)
@@ -146,6 +148,14 @@ func generateOpenVPNSecrets(clientset *kubernetes.Clientset, namespace string, v
 	}
 	logger.Debug("serverCcdFile content..", string(serverCcdFile))
 	logger.Info("serverCcdFile has been generated.")
+
+	serverOvpnEnvFile, err := readFile(serverOvpnEnv)
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+	logger.Debug("serverOvpnEnvFile content..", string(serverOvpnEnvFile))
+	logger.Info("serverOvpnEnvFile has been generated.")
 
 	pkiIssuedFile, err := readFile(pkiIssued)
 	if err != nil {
@@ -218,6 +228,7 @@ func generateOpenVPNSecrets(clientset *kubernetes.Clientset, namespace string, v
 			"pkiPrivateKeyFile": pkiPrivateFile,
 			"pkiCACertFile":     pkiCaFile,
 			"ccdFile":           serverCcdFile,
+			"ovpnEnvFile":       serverOvpnEnvFile,
 		}}
 	// delete any existing secrets present
 	_ = clientset.CoreV1().Secrets(namespace).Delete(context.TODO(), clientSecret.Name, v1.DeleteOptions{})
